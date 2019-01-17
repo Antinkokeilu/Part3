@@ -2,6 +2,7 @@ const http = require('http')
 const express = require('express')
 const bodyParser = require('body-parser')
 var morgan = require('morgan')
+
 const app = express()
 
 //const app = http.createServer((req, res) => {
@@ -29,6 +30,7 @@ let notes = [
       important: true
     }
   ]
+  app.use(express.static('build'))
   app.use(bodyParser.json())
   const logger = (request, response, next) => {
     console.log('Method:',request.method)
@@ -53,7 +55,7 @@ let notes = [
     response.end(JSON.stringify(notes))
   })
  
-  app.get('/notes/:id', (request, response) => {
+  app.get('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
     const note = notes.find(note => note.id === id)
   
